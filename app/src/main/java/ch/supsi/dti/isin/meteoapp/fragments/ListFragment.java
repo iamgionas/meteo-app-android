@@ -22,20 +22,20 @@ import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.Location;
 
 public class ListFragment extends Fragment {
-    private RecyclerView mLocationRecyclerView;
-    private LocationAdapter mAdapter;
+    private RecyclerView mLocationRecyclerView; //Lista contenente le città
+    private LocationAdapter mAdapter; //Responsabile di creare i ViewHolders necessari
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        setHasOptionsMenu(true); //Informa al fragment che c'è un menu
     }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        mLocationRecyclerView = view.findViewById(R.id.recycler_view);
+        mLocationRecyclerView = view.findViewById(R.id.recycler_view); //Seleziono la zona in cui voglio inserire il RecyclerView
         mLocationRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         List<Location> locations = LocationsHolder.get(getActivity()).getLocations();
@@ -45,14 +45,16 @@ public class ListFragment extends Fragment {
         return view;
     }
 
-    // Menu
-
+    /************************** MENU **************************
+     Menu, richiamato automaticamente
+    ***********************************************************/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_list, menu);
     }
 
+    // Azione di riposta al menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -67,14 +69,15 @@ public class ListFragment extends Fragment {
         }
     }
 
-    // Holder
-
+    /************************** HOLDER **************************
+     Holder crea la lista con le view
+     ************************************************************/
     private class LocationHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView mNameTextView;
         private Location mLocation;
 
         public LocationHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item, parent, false));
+            super(inflater.inflate(R.layout.list_item, parent, false)); //Seleziono il layout
             itemView.setOnClickListener(this);
             mNameTextView = itemView.findViewById(R.id.name);
         }
@@ -91,8 +94,9 @@ public class ListFragment extends Fragment {
         }
     }
 
-    // Adapter
-
+    /************************** ADAPTER **************************
+     Adapter crea gli elementi (view) della lista
+     ************************************************************/
     private class LocationAdapter extends RecyclerView.Adapter<LocationHolder> {
         private List<Location> mLocations;
 

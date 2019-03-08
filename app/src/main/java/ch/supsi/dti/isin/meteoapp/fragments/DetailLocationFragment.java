@@ -17,7 +17,11 @@ public class DetailLocationFragment extends Fragment {
     private static final String ARG_LOCATION_ID = "location_id";
 
     private Location mLocation;
-    private TextView mIdTextView;
+    private TextView mLocationName;
+    private TextView mWeatherType;
+    private TextView mTemp;
+    private TextView mTempMin;
+    private TextView mTempMax;
 
     public static DetailLocationFragment newInstance(UUID locationId) {
         Bundle args = new Bundle();
@@ -39,8 +43,14 @@ public class DetailLocationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail_location, container, false);
 
-        mIdTextView = v.findViewById(R.id.id_textView);
-        mIdTextView.setText(mLocation.getId().toString());
+
+        // CurrentWeather = WeatherHttpClient.getDataByLocation(mlocation);
+
+        mLocationName = v.findViewById(R.id.locationName);
+        mLocationName.setText(mLocation.getName());
+
+        //mNameLocation = v.findViewById(R.id.nameLocation);
+        //mNameLocation.setText(mLocation.getName());
 
         return v;
     }
