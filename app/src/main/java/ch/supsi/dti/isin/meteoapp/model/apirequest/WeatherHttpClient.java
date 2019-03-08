@@ -21,7 +21,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?q=" + location + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?q=" + location + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -50,7 +50,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?q=" + location + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?q=" + location + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -79,7 +79,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?id=" + id + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?id=" + id + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -108,7 +108,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?id=" + id + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?id=" + id + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -137,7 +137,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?lat=" + lat + "&lon="+ lon +"&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?lat=" + lat + "&lon="+ lon + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -166,7 +166,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?lat=" + lat + "&lon="+ lon +"&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?lat=" + lat + "&lon="+ lon + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -195,7 +195,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?zip=" + zipCode + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?zip=" + zipCode + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
@@ -224,7 +224,7 @@ public class WeatherHttpClient {
         InputStream is = null;
 
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?zip=" + zipCode + "&APPID=" + APPID)).openConnection();
+            con = (HttpURLConnection) ( new URL(BASE_URL + "forecast?zip=" + zipCode + "&units=metric" + "&APPID=" + APPID)).openConnection();
             con.setRequestMethod("GET");
             con.setDoInput(true);
             con.setDoOutput(true);
