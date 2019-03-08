@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
+
 public class LocationsHolder {
 
     private static LocationsHolder sLocationsHolder;
@@ -20,11 +22,18 @@ public class LocationsHolder {
 
     private LocationsHolder(Context context) {
         mLocations = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Location location = new Location();
-            location.setName("Location # " + i);
-            mLocations.add(location);
-        }
+
+        Location location = new Location();
+        location.setName("London");
+        mLocations.add(location);
+
+        Location location1 = new Location();
+        location1.setName("Milan");
+        mLocations.add(location1);
+
+        Location location2 = new Location();
+        location2.setName("Lisbon");
+        mLocations.add(location2);
     }
 
     public List<Location> getLocations() {
