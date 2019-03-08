@@ -8,7 +8,7 @@ public class ForecastWeather {
     private double message;
     private int cnt;
     private List<WeatherComponents> list;
-    private City city;
+    private Location city;
 
     public int getCod() {
         return cod;
@@ -42,11 +42,11 @@ public class ForecastWeather {
         this.list = list;
     }
 
-    public City getCity() {
+    public Location getLocation() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setLocation(Location city) {
         this.city = city;
     }
 

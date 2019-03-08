@@ -19,7 +19,7 @@ import java.util.List;
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
-import ch.supsi.dti.isin.meteoapp.model.Location;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 
 public class ListFragment extends Fragment {
     private RecyclerView mLocationRecyclerView;
@@ -81,7 +81,7 @@ public class ListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            Intent intent = DetailActivity.newIntent(getActivity(), mLocation.getId());
+            Intent intent = DetailActivity.newIntent(getActivity(), mLocation);
             startActivity(intent);
         }
 

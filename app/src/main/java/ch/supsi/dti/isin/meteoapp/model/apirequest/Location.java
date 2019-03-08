@@ -1,26 +1,33 @@
 package ch.supsi.dti.isin.meteoapp.model.apirequest;
 
-public class City {
+import java.util.UUID;
 
-    private int id;
-    private String name;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.Coordinate;
+
+public class Location {
+    private UUID Id;
+    private String mName;
     private Coordinate coord;
     private String country;
 
-    public int getId() {
-        return id;
+    public UUID getId() {
+        return Id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setId(UUID id) {
+        Id = id;
     }
 
     public String getName() {
-        return name;
+        return mName;
     }
 
     public void setName(String name) {
-        this.name = name;
+        mName = name;
+    }
+
+    public Location() {
+        Id = UUID.randomUUID();
     }
 
     public Coordinate getCoord() {
@@ -42,11 +49,10 @@ public class City {
     @Override
     public String toString() {
         return "City{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coord=" + coord +
+                "id=" + getId().toString() +
+                ", name='" + getName() + '\'' +
+                ", coord=" + coord.getLat() + "/" + coord.getLon() +
                 ", country='" + country + '\'' +
                 '}';
     }
 }
-
