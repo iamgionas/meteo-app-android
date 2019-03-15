@@ -11,7 +11,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import ch.supsi.dti.isin.meteoapp.fragments.DetailLocationFragment;
+import ch.supsi.dti.isin.meteoapp.fragments.Updateable;
 
 public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
 
@@ -19,10 +19,10 @@ public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
     private static String APPID = "b038aafc4ea3e367b4fb1fed9126b444";
 
     private static Gson json = new Gson();
-    private DetailLocationFragment context;
+    private Updateable fragment;
 
-    public WeatherHttpClient(DetailLocationFragment context){
-        this.context = context;
+    public WeatherHttpClient(Updateable fragment){
+        this.fragment = fragment;
     }
 
     public void getCurrentWeatherDataByLocation(Location location) {
@@ -38,36 +38,18 @@ public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
     @Override
     protected void onPostExecute(CurrentWeather currentWeather) {
         super.onPostExecute(currentWeather);
-        context.update(currentWeather);
+        fragment.update(currentWeather);
     }
 
-    public static CurrentWeather getCurrentWeatherDataByLatLon(double lat, double lon) {
-        CurrentWeather currentWeather = null;
-        HttpURLConnection con = null ;
-        InputStream is = null;
-
+    public void getCurrentWeatherDataByLatLon(double lat, double lon) {
+        URL u = null;
         try {
-            con = (HttpURLConnection) ( new URL(BASE_URL + "weather?lat=" + lat + "&lon="+ lon + "&units=metric" + "&APPID=" + APPID)).openConnection();
-            con.setRequestMethod("GET");
-            con.setDoInput(true);
-            con.setDoOutput(true);
-            con.connect();
+            u = new URL(BASE_URL + "weather?lat=" + lat + "&lon="+ lon + "&units=metric" + "&APPID=" + APPID);
 
-            // Let's read the response
-            is = con.getInputStream();
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            currentWeather = json.fromJson(br, CurrentWeather.class);
-            is.close();
-            con.disconnect();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
-        catch(Throwable t) {
-            t.printStackTrace();
-        }
-        finally {
-            try { is.close(); } catch(Throwable t) {}
-            try { con.disconnect(); } catch(Throwable t) {}
-        }
-        return currentWeather;
+        this.execute(u);
     }
 
     @Override

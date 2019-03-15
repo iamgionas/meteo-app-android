@@ -1,15 +1,21 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,12 +36,23 @@ import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
 import ch.supsi.dti.isin.meteoapp.db.DatabaseHelper;
 import ch.supsi.dti.isin.meteoapp.db.DatabaseSchema;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.Coordinate;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.CurrentWeather;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.WeatherHttpClient;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationAccuracy;
+import io.nlopez.smartlocation.location.config.LocationParams;
 
-public class ListFragment extends Fragment {
+import static android.content.ContentValues.TAG;
+
+public class ListFragment extends Fragment implements Updateable{
+    private static final int REQ_CODE = 648;
     private RecyclerView mLocationRecyclerView; //Lista contenente le città
     private LocationAdapter mAdapter; //Responsabile di creare i ViewHolders necessari
     private SQLiteDatabase mDatabase;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +61,59 @@ public class ListFragment extends Fragment {
         mDatabase = new DatabaseHelper(this.getContext()).getWritableDatabase();
 
         setHasOptionsMenu(true); //Informa al fragment che c'è un menu
+
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_CODE);
+        } else {
+            // ho già i permessi
+        }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case REQ_CODE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startLocationListener(this.getContext());
+                }
+                return;
+            }
+        }
+    }
+
+    private void startLocationListener(final Context context) {
+
+        LocationParams.Builder builder = new LocationParams.Builder()
+                .setAccuracy(LocationAccuracy.HIGH)
+                .setDistance(0)
+                .setInterval(5000); // 5 sec
+
+        SmartLocation.with(context)
+                .location()
+                .continuous()
+                .config(builder.build())
+                .start(
+                        new OnLocationUpdatedListener() {
+                            @Override
+                            public void onLocationUpdated(android.location.Location location) {
+                                Log.i(TAG, "Location" + location);
+
+                                WeatherHttpClient weatherHttpClient = new WeatherHttpClient(ListFragment.this);
+                                weatherHttpClient.getCurrentWeatherDataByLatLon(location.getLatitude(), location.getLongitude());
+                            }
+                        });
+
+    }
+
+    public void update(CurrentWeather currentWeather){
+        if(!mAdapter.mLocations.get(0).getName().equals(currentWeather.getName())){
+            mAdapter.mLocations.get(0).setName(currentWeather.getName());
+            mAdapter.notifyDataSetChanged();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -62,7 +130,7 @@ public class ListFragment extends Fragment {
 
     /************************** MENU **************************
      Menu, richiamato automaticamente
-    ***********************************************************/
+     ***********************************************************/
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);

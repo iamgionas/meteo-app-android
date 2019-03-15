@@ -9,15 +9,18 @@ public class Location {
     private String mName;
     private Coordinate coord;
     private String country;
+    private Boolean isLocated;
 
     public Location(UUID id, String mName) {
         Id = id;
         this.mName = mName;
+        this.isLocated = false;
     }
 
     public Location(String mName) {
         Id = UUID.randomUUID();
         this.mName = mName;
+        this.isLocated = false;
     }
 
     public UUID getId() {
@@ -56,6 +59,14 @@ public class Location {
         this.country = country;
     }
 
+    public Boolean getLocated() {
+        return isLocated;
+    }
+
+    public void setLocated(Boolean located) {
+        isLocated = located;
+    }
+
     @Override
     public String toString() {
         return "City{" +
@@ -65,4 +76,5 @@ public class Location {
                 ", country='" + country + '\'' +
                 '}';
     }
+
 }

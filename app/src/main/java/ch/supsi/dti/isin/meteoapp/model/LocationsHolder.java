@@ -3,6 +3,7 @@ package ch.supsi.dti.isin.meteoapp.model;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -13,6 +14,12 @@ import ch.supsi.dti.isin.meteoapp.db.CustomCursorWrapper;
 import ch.supsi.dti.isin.meteoapp.db.DatabaseHelper;
 import ch.supsi.dti.isin.meteoapp.db.DatabaseSchema;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
+import io.nlopez.smartlocation.OnLocationUpdatedListener;
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationAccuracy;
+import io.nlopez.smartlocation.location.config.LocationParams;
+
+import static android.content.ContentValues.TAG;
 
 public class LocationsHolder {
 
@@ -31,6 +38,8 @@ public class LocationsHolder {
         mDatabase = new DatabaseHelper(context).getWritableDatabase();
 
         mLocations = new ArrayList<>();
+
+        mLocations.add(new Location());
 
         readData();
     }
