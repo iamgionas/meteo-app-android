@@ -10,13 +10,18 @@ public class Location {
     private Coordinate coord;
     private String country;
 
-    public UUID getId() {
-        return Id;
+    public Location(UUID id, String mName) {
+        Id = id;
+        this.mName = mName;
     }
 
     public Location(String mName) {
         Id = UUID.randomUUID();
         this.mName = mName;
+    }
+
+    public UUID getId() {
+        return Id;
     }
 
     public void setId(UUID id) {

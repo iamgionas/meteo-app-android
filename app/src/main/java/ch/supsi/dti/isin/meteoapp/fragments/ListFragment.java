@@ -1,8 +1,11 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,16 +27,22 @@ import java.util.List;
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
 import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
+import ch.supsi.dti.isin.meteoapp.db.DatabaseHelper;
+import ch.supsi.dti.isin.meteoapp.db.DatabaseSchema;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 
 public class ListFragment extends Fragment {
     private RecyclerView mLocationRecyclerView; //Lista contenente le città
     private LocationAdapter mAdapter; //Responsabile di creare i ViewHolders necessari
+    private SQLiteDatabase mDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mDatabase = new DatabaseHelper(this.getContext()).getWritableDatabase();
+
         setHasOptionsMenu(true); //Informa al fragment che c'è un menu
     }
 
@@ -72,7 +81,11 @@ public class ListFragment extends Fragment {
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mAdapter.addLocationToList(new Location(editText.getText().toString()));
+                                String locationName = editText.getText().toString();
+                                mAdapter.addLocationToList(new Location(locationName));
+                                ContentValues values = new ContentValues();
+                                values.put(DatabaseSchema.Table.Cols.LOCATION, locationName);
+                                mDatabase.insert("meteoapp", null, values);
                             }
                         })
                         .setNegativeButton(android.R.string.cancel, null)
