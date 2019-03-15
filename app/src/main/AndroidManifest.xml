@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DetailActivity"></activity>
+
+        <receiver android:name=".fragments.DetailLocationFragment" />
     </application>
 
 </manifest>

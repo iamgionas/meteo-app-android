@@ -15,7 +15,7 @@ public class Main {
         location1.setName("London");
 
         // RICERCA PER NOME
-        CurrentWeather currentWeather = WeatherHttpClient.getCurrentWeatherDataByLocation(location1);
+        CurrentWeather currentWeather = WeatherHttpClient.getCurrentWeatherDataByLocation2(location1);
         System.out.println(currentWeather.toString());
         System.out.println(currentWeather.getMain().getTemp());
 

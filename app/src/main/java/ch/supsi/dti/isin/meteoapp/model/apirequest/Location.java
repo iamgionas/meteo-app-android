@@ -14,6 +14,11 @@ public class Location {
         return Id;
     }
 
+    public Location(String mName) {
+        Id = UUID.randomUUID();
+        this.mName = mName;
+    }
+
     public void setId(UUID id) {
         Id = id;
     }

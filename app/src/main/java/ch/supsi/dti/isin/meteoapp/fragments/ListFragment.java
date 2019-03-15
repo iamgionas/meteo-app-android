@@ -1,5 +1,7 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,13 +13,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.toolbox.Volley;
 
 import java.util.List;
 
 import ch.supsi.dti.isin.meteoapp.R;
 import ch.supsi.dti.isin.meteoapp.activities.DetailActivity;
+import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 
@@ -59,10 +65,19 @@ public class ListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add:
-                Toast toast = Toast.makeText(getActivity(),
-                        "Add a location",
-                        Toast.LENGTH_SHORT);
-                toast.show();
+                final EditText editText = new EditText(getContext());
+
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Aggiungi località")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mAdapter.addLocationToList(new Location(editText.getText().toString()));
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setView(editText)
+                        .show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -119,6 +134,11 @@ public class ListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mLocations.size();
+        }
+
+        public void addLocationToList(Location l){
+            mLocations.add(l);
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
