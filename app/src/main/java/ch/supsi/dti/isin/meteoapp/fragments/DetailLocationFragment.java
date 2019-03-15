@@ -1,13 +1,17 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+;
+import android.net.Uri;
 
+import java.net.URI;
 import java.util.UUID;
 
 import ch.supsi.dti.isin.meteoapp.R;
@@ -25,6 +29,7 @@ public class DetailLocationFragment extends Fragment {
     private TextView mTemp;
     private TextView mTempMin;
     private TextView mTempMax;
+    private ImageView mImageView;
 
     public static DetailLocationFragment newInstance(UUID locationId) {
         Bundle args = new Bundle();
@@ -50,18 +55,23 @@ public class DetailLocationFragment extends Fragment {
         mTemp = v.findViewById(R.id.temp);
         mTempMin = v.findViewById(R.id.tempMin);
         mTempMax = v.findViewById(R.id.tempMax);
+        mImageView = v.findViewById(R.id.imageView);
 
-        WeatherHttpClient.getCurrentWeatherDataByLocation(mLocation, this);
+        WeatherHttpClient w = new WeatherHttpClient(this);
+        w.getCurrentWeatherDataByLocation(mLocation);
 
         return v;
     }
 
     public void update(CurrentWeather cw){
         mLocationName.setText(mLocation.getName());
-        mWeatherType.setText(cw.getMain().toString());
-        mTemp.setText(cw.getMain().getTemp() + "°C");
-        mTempMin.setText(Double.toString(cw.getMain().getTemp_min()) + "°C");
-        mTempMax.setText(Double.toString(cw.getMain().getTemp_max()) + "°C");
+        mWeatherType.setText(cw.getWeather().get(0).getDescription());
+        mTemp.setText((int)cw.getMain().getTemp() + "°C");
+        mTempMin.setText((int)cw.getMain().getTemp_min() + "°C");
+        mTempMax.setText((int)cw.getMain().getTemp_max() + "°C");
+        String mDrawableName = "a"+cw.getWeather().get(0).getIcon();
+        int resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+        mImageView.setImageResource(resID);
     }
 }
 

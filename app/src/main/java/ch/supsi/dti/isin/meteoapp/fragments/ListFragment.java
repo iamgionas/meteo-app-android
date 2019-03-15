@@ -68,7 +68,7 @@ public class ListFragment extends Fragment {
                 final EditText editText = new EditText(getContext());
 
                 new AlertDialog.Builder(getContext())
-                        .setTitle("Aggiungi località")
+                        .setTitle("Add Location")
                         .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
