@@ -16,14 +16,14 @@ import ch.supsi.dti.isin.meteoapp.fragments.ListFragment;
 // per le previsioni meteo future utilizzare il contenitore ForecastWeather
 
 public class MainActivity extends SingleFragmentActivity {
-    private SQLiteDatabase mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Context context = getApplicationContext();
-        mDatabase = new DatabaseHelper(context).getWritableDatabase();
+        SQLiteDatabase mDatabase = new DatabaseHelper(context).getWritableDatabase();
+
         mDatabase.close();
     }
 
