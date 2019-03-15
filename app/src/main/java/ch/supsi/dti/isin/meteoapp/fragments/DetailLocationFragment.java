@@ -58,10 +58,10 @@ public class DetailLocationFragment extends Fragment {
 
     public void update(CurrentWeather cw){
         mLocationName.setText(mLocation.getName());
-/*        mWeatherType.setText(cw.getMain().toString());
+        mWeatherType.setText(cw.getMain().toString());
         mTemp.setText(cw.getMain().getTemp() + "°C");
         mTempMin.setText(Double.toString(cw.getMain().getTemp_min()) + "°C");
-        mTempMax.setText(Double.toString(cw.getMain().getTemp_max()) + "°C");*/
+        mTempMax.setText(Double.toString(cw.getMain().getTemp_max()) + "°C");
     }
 }
 

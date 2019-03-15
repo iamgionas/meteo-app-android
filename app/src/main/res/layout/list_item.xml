@@ -4,9 +4,16 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
+
     <TextView
         android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"/>
+        android:text="Title"
+        android:textAlignment="viewStart"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        android:padding="10dp"
+        android:layout_margin="0dp"
+        android:background="#66bb6a"/>
 </LinearLayout>
