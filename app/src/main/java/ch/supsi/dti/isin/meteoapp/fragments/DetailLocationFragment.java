@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import ch.supsi.dti.isin.meteoapp.R;
+import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
 import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.WeatherHttpClient;
@@ -62,8 +63,8 @@ public class DetailLocationFragment extends Fragment implements Updateable{
 
         if(mLocation.getName().equals("My position")){
             w.getCurrentWeatherDataByLatLon(
-                    ListFragment.currentLocation.getCoord().getLat(),
-                    ListFragment.currentLocation.getCoord().getLon()
+                    MainActivity.currentLocation.getCoord().getLat(),
+                    MainActivity.currentLocation.getCoord().getLon()
             );
         } else {
             w.getCurrentWeatherDataByLocation(mLocation);
