@@ -56,8 +56,10 @@ public class NotifyService extends IntentService implements Updateable {
 
         WeatherHttpClient w = new WeatherHttpClient(this);
 
-        w.getCurrentWeatherDataByLatLon(MainActivity.currentLocation.getCoord().getLat(),
-                MainActivity.currentLocation.getCoord().getLon());
+        if(MainActivity.currentLocation.getCoord() != null) {
+            w.getCurrentWeatherDataByLatLon(MainActivity.currentLocation.getCoord().getLat(),
+                    MainActivity.currentLocation.getCoord().getLon());
+        }
     }
 
     private void sendNotification(int i) {
@@ -80,6 +82,8 @@ public class NotifyService extends IntentService implements Updateable {
 
     @Override
     public void update(CurrentWeather currentWeather) {
+        if(currentWeather == null)
+            return;
         if(tempMax < (int)currentWeather.getMain().getTemp()){
             sendNotification((int)currentWeather.getMain().getTemp());
         }

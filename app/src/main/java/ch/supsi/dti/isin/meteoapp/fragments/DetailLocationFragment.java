@@ -74,13 +74,16 @@ public class DetailLocationFragment extends Fragment implements Updateable{
     }
 
     public void update(CurrentWeather cw){
+        if(cw == null)
+            return;
+
         mLocationName.setText(cw.getName());
         mWeatherType.setText(cw.getWeather().get(0).getDescription());
-        mTemp.setText((int)cw.getMain().getTemp() + "°C");
-        mTempMin.setText((int)cw.getMain().getTemp_min() + "°C");
-        mTempMax.setText((int)cw.getMain().getTemp_max() + "°C");
-        String mDrawableName = "a"+cw.getWeather().get(0).getIcon();
-        int resID = getResources().getIdentifier(mDrawableName , "drawable", getContext().getPackageName());
+        mTemp.setText((int) cw.getMain().getTemp() + "°C");
+        mTempMin.setText((int) cw.getMain().getTemp_min() + "°C");
+        mTempMax.setText((int) cw.getMain().getTemp_max() + "°C");
+        String mDrawableName = "a" + cw.getWeather().get(0).getIcon();
+        int resID = getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
         mImageView.setImageResource(resID);
     }
 }
