@@ -12,7 +12,6 @@ import android.util.Log;
 
 import ch.supsi.dti.isin.meteoapp.db.DatabaseHelper;
 import ch.supsi.dti.isin.meteoapp.fragments.ListFragment;
-<<<<<<< HEAD
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Coordinate;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 import io.nlopez.smartlocation.OnLocationUpdatedListener;
@@ -21,9 +20,7 @@ import io.nlopez.smartlocation.location.config.LocationAccuracy;
 import io.nlopez.smartlocation.location.config.LocationParams;
 
 import static android.content.ContentValues.TAG;
-=======
 import ch.supsi.dti.isin.meteoapp.services.NotifyService;
->>>>>>> notifiche
 
 
 // per richiedere la meteo utilizzare WeatherHttpClient con gli appositi metodi

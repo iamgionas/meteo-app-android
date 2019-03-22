@@ -65,7 +65,7 @@ public class NotifyService extends IntentService implements Updateable {
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "default")
                 .setSmallIcon(android.R.drawable.ic_menu_report_image)
-                .setContentTitle("Temperatura superata")
+                .setContentTitle("Alert Temperatura")
                 .setContentText("Temperatura superata: " + i)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
