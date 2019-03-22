@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.DetailActivity"></activity>
+        <service android:name=".services.NotifyService" />
 
     </application>
 
