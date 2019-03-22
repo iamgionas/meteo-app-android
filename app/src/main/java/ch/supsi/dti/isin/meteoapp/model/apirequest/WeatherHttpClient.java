@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import ch.supsi.dti.isin.meteoapp.fragments.DetailLocationFragment;
+import ch.supsi.dti.isin.meteoapp.fragments.Updateable;
 
 public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
 
@@ -19,9 +20,9 @@ public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
     private static String APPID = "b038aafc4ea3e367b4fb1fed9126b444";
 
     private static Gson json = new Gson();
-    private DetailLocationFragment context;
+    private Updateable context;
 
-    public WeatherHttpClient(DetailLocationFragment context){
+    public WeatherHttpClient(Updateable context){
         this.context = context;
     }
 

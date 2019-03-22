@@ -20,7 +20,7 @@ import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.WeatherHttpClient;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.CurrentWeather;
 
-public class DetailLocationFragment extends Fragment {
+public class DetailLocationFragment extends Fragment implements Updateable{
     private static final String ARG_LOCATION_ID = "location_id";
 
     private Location mLocation;

@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import ch.supsi.dti.isin.meteoapp.db.DatabaseHelper;
-import ch.supsi.dti.isin.meteoapp.db.DatabaseSchema;
 import ch.supsi.dti.isin.meteoapp.fragments.ListFragment;
+import ch.supsi.dti.isin.meteoapp.services.NotifyService;
 
 
 // per richiedere la meteo utilizzare WeatherHttpClient con gli appositi metodi
@@ -23,6 +23,7 @@ public class MainActivity extends SingleFragmentActivity {
 
         Context context = getApplicationContext();
         SQLiteDatabase mDatabase = new DatabaseHelper(context).getWritableDatabase();
+        NotifyService.setServiceAlarm(this, true);
 
         mDatabase.close();
     }
