@@ -24,6 +24,7 @@ import static android.content.ContentValues.TAG;
 public class LocationsHolder {
 
     private static LocationsHolder sLocationsHolder;
+
     private List<Location> mLocations;
     private SQLiteDatabase mDatabase;
 
@@ -32,6 +33,10 @@ public class LocationsHolder {
             sLocationsHolder = new LocationsHolder(context);
 
         return sLocationsHolder;
+    }
+
+    public List<Location> getmLocations() {
+        return mLocations;
     }
 
     private LocationsHolder(Context context) {

@@ -11,9 +11,13 @@ import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ch.supsi.dti.isin.meteoapp.activities.MainActivity;
 import ch.supsi.dti.isin.meteoapp.fragments.Updateable;
+import ch.supsi.dti.isin.meteoapp.model.LocationsHolder;
+import ch.supsi.dti.isin.meteoapp.model.apirequest.Coordinate;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.CurrentWeather;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.Location;
 import ch.supsi.dti.isin.meteoapp.model.apirequest.WeatherHttpClient;
@@ -51,7 +55,9 @@ public class NotifyService extends IntentService implements Updateable {
         Log.i(TAG, "Received an intent: " + intent);
 
         WeatherHttpClient w = new WeatherHttpClient(this);
-        w.getCurrentWeatherDataByLocation(new Location("Giornico"));
+
+        w.getCurrentWeatherDataByLatLon(MainActivity.currentLocation.getCoord().getLat(),
+                MainActivity.currentLocation.getCoord().getLon());
     }
 
     private void sendNotification(int i) {

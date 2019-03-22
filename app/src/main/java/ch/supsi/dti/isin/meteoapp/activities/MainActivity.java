@@ -38,7 +38,6 @@ public class MainActivity extends SingleFragmentActivity {
 
         Context context = getApplicationContext();
         SQLiteDatabase mDatabase = new DatabaseHelper(context).getWritableDatabase();
-        NotifyService.setServiceAlarm(this, true);
 
         mDatabase.close();
 
@@ -49,6 +48,8 @@ public class MainActivity extends SingleFragmentActivity {
             Log.i(TAG, "Permission granted");
             startLocationListener();
         }
+
+        NotifyService.setServiceAlarm(this, true);
     }
 
     private void startLocationListener() {
