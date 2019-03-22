@@ -39,7 +39,10 @@ public class LocationsHolder {
 
         mLocations = new ArrayList<>();
 
-        mLocations.add(new Location());
+        Location myPosition = new Location();
+        myPosition.setName("My position");
+
+        mLocations.add(myPosition);
 
         readData();
     }

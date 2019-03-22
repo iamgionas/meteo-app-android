@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.net.Uri;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 import ch.supsi.dti.isin.meteoapp.R;
@@ -58,13 +59,21 @@ public class DetailLocationFragment extends Fragment implements Updateable{
         mImageView = v.findViewById(R.id.imageView);
 
         WeatherHttpClient w = new WeatherHttpClient(this);
-        w.getCurrentWeatherDataByLocation(mLocation);
+
+        if(mLocation.getName().equals("My position")){
+            w.getCurrentWeatherDataByLatLon(
+                    ListFragment.currentLocation.getCoord().getLat(),
+                    ListFragment.currentLocation.getCoord().getLon()
+            );
+        } else {
+            w.getCurrentWeatherDataByLocation(mLocation);
+        }
 
         return v;
     }
 
     public void update(CurrentWeather cw){
-        mLocationName.setText(mLocation.getName());
+        mLocationName.setText(cw.getName());
         mWeatherType.setText(cw.getWeather().get(0).getDescription());
         mTemp.setText((int)cw.getMain().getTemp() + "°C");
         mTempMin.setText((int)cw.getMain().getTemp_min() + "°C");

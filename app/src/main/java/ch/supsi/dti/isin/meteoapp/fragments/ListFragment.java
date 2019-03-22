@@ -49,6 +49,7 @@ import static android.content.ContentValues.TAG;
 
 public class ListFragment extends Fragment implements Updateable{
     private static final int REQ_CODE = 648;
+    public static final Location currentLocation = new Location();
     private RecyclerView mLocationRecyclerView; //Lista contenente le città
     private LocationAdapter mAdapter; //Responsabile di creare i ViewHolders necessari
     private SQLiteDatabase mDatabase;
@@ -63,49 +64,61 @@ public class ListFragment extends Fragment implements Updateable{
         setHasOptionsMenu(true); //Informa al fragment che c'è un menu
 
         if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQ_CODE);
+            Log.i(TAG, "Permission not granted");
+            requestPermissions();
         } else {
-            // ho già i permessi
+            Log.i(TAG, "Permission granted");
+            startLocationListener();
+        }
+    }
+
+    private void startLocationListener() {
+        long mLocTrackingInterval = 1000 * 5; // 5 sec
+        float trackingDistance = 0;
+        LocationAccuracy trackingAccuracy = LocationAccuracy.HIGH;
+
+        LocationParams.Builder builder = new LocationParams.Builder()
+                .setAccuracy(trackingAccuracy)
+                .setDistance(trackingDistance)
+                .setInterval(mLocTrackingInterval);
+
+        SmartLocation.with(this.getContext())
+                .location()
+
+                .continuous()
+                .config(builder.build())
+                .start(new OnLocationUpdatedListener() {
+                    @Override
+                    public void onLocationUpdated(android.location.Location location) {
+
+                        Log.i(TAG, "Location2" + location);
+                        Coordinate coordinate = new Coordinate();
+                        coordinate.setLat(location.getLatitude());
+                        coordinate.setLon(location.getLongitude());
+
+                        currentLocation.setCoord(coordinate);
+//                        mAdapter.mLocations.get(0).setName("Lat=" + location.getLatitude() + " / Long=" + location.getLongitude());
+                    }
+                });
+    }
+
+    private void requestPermissions() {
+        if (ContextCompat.checkSelfPermission(this.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
+            startLocationListener();
         }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startLocationListener(this.getContext());
-                }
+            case 0: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    startLocationListener();
                 return;
             }
         }
-    }
-
-    private void startLocationListener(final Context context) {
-
-        LocationParams.Builder builder = new LocationParams.Builder()
-                .setAccuracy(LocationAccuracy.HIGH)
-                .setDistance(0)
-                .setInterval(5000); // 5 sec
-
-        SmartLocation.with(context)
-                .location()
-                .continuous()
-                .config(builder.build())
-                .start(
-                        new OnLocationUpdatedListener() {
-                            @Override
-                            public void onLocationUpdated(android.location.Location location) {
-                                Log.i(TAG, "Location" + location);
-
-                                WeatherHttpClient weatherHttpClient = new WeatherHttpClient(ListFragment.this);
-                                weatherHttpClient.getCurrentWeatherDataByLatLon(location.getLatitude(), location.getLongitude());
-                            }
-                        });
-
     }
 
     public void update(CurrentWeather currentWeather){
