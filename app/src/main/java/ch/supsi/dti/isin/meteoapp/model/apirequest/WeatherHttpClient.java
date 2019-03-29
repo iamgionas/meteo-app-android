@@ -15,7 +15,7 @@ import ch.supsi.dti.isin.meteoapp.fragments.Updateable;
 
 public class WeatherHttpClient extends AsyncTask<URL, Integer, CurrentWeather> {
 
-    private static String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+    private static String BASE_URL = "https://api.openweathermap.org/data/2.5/";
     private static String APPID = "b038aafc4ea3e367b4fb1fed9126b444";
 
     private static Gson json = new Gson();
