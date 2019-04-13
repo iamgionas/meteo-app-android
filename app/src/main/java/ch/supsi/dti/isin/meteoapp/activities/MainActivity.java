@@ -41,7 +41,8 @@ public class MainActivity extends SingleFragmentActivity {
 
         mDatabase.close();
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(
+                MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission not granted");
             requestPermissions();
         } else {
@@ -77,7 +78,6 @@ public class MainActivity extends SingleFragmentActivity {
                         coordinate.setLon(location.getLongitude());
 
                         currentLocation.setCoord(coordinate);
-//                        mAdapter.mLocations.get(0).setName("Lat=" + location.getLatitude() + " / Long=" + location.getLongitude());
                     }
                 });
     }

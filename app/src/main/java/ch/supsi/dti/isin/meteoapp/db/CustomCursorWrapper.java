@@ -20,3 +20,4 @@ public class CustomCursorWrapper extends CursorWrapper {
         return new Location(name);
     }
 }
+
