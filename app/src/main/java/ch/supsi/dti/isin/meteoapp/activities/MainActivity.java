@@ -41,6 +41,7 @@ public class MainActivity extends SingleFragmentActivity {
 
         mDatabase.close();
 
+        // Verifica i permessi
         if (ContextCompat.checkSelfPermission(
                 MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.i(TAG, "Permission not granted");
@@ -50,6 +51,7 @@ public class MainActivity extends SingleFragmentActivity {
             startLocationListener();
         }
 
+        // Impostazione della notifica
         NotifyService.setServiceAlarm(this, true);
     }
 
@@ -82,6 +84,7 @@ public class MainActivity extends SingleFragmentActivity {
                 });
     }
 
+    // Metodo che verifica i permessi per la localizzazione
     private void requestPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
@@ -90,6 +93,7 @@ public class MainActivity extends SingleFragmentActivity {
         }
     }
 
+    // Metodo che imposta il permesso di accedere alla localizazione
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {

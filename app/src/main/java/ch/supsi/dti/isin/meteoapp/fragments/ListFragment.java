@@ -57,9 +57,11 @@ public class ListFragment extends Fragment implements Updateable{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Recupera il database
         mDatabase = new DatabaseHelper(this.getContext()).getWritableDatabase();
 
-        setHasOptionsMenu(true); //Informa al fragment che c'è un menu
+        // Informa al fragment che c'è un menu
+        setHasOptionsMenu(true);
     }
 
     public void update(CurrentWeather currentWeather){

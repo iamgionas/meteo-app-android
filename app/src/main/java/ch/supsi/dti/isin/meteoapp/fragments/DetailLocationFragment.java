@@ -1,6 +1,5 @@
 package ch.supsi.dti.isin.meteoapp.fragments;
 
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,11 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-;
-import android.net.Uri;
-
-import java.net.URI;
-import java.util.List;
 import java.util.UUID;
 
 import ch.supsi.dti.isin.meteoapp.R;
@@ -33,15 +27,18 @@ public class DetailLocationFragment extends Fragment implements Updateable{
     private TextView mTempMax;
     private ImageView mImageView;
 
+    // In questo metodo riceviamo l'id della location selezionata dalla lista e creiamo il fragment
     public static DetailLocationFragment newInstance(UUID locationId) {
         Bundle args = new Bundle();
         args.putSerializable(ARG_LOCATION_ID, locationId);
 
+        //Creiamo il fragment passandoli l'id della location
         DetailLocationFragment fragment = new DetailLocationFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
+    // Alla creazione impostiamo l'attributo location con quello che riceviamo dalla fragment della lista
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +46,7 @@ public class DetailLocationFragment extends Fragment implements Updateable{
         mLocation = LocationsHolder.get(getActivity()).getLocation(locationId);
     }
 
+    // Questo metodo andiamo a mappare gli elementi della view con gli attributi del fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_detail_location, container, false);
@@ -59,8 +57,10 @@ public class DetailLocationFragment extends Fragment implements Updateable{
         mTempMax = v.findViewById(R.id.tempMax);
         mImageView = v.findViewById(R.id.imageView);
 
+        // Eseguiamo la richiesta alla classe responsabile delle API passandoli il contesto (this)
         WeatherHttpClient w = new WeatherHttpClient(this);
 
+        // Se la location è la posiziona attuale usiamo il metodo con lat e lon se no passiamo il nome della città
         if(mLocation.getName().equals("My position")){
             w.getCurrentWeatherDataByLatLon(
                     MainActivity.currentLocation.getCoord().getLat(),
@@ -73,15 +73,19 @@ public class DetailLocationFragment extends Fragment implements Updateable{
         return v;
     }
 
+    // Questo è il metodo chiamato dalla classe delle API, metodo callback
     public void update(CurrentWeather cw){
         if(cw == null)
             return;
 
+        // Impostiamo tutti i valori relativi per aggiornare la view
         mLocationName.setText(cw.getName());
         mWeatherType.setText(cw.getWeather().get(0).getDescription());
         mTemp.setText((int) cw.getMain().getTemp() + "°C");
         mTempMin.setText((int) cw.getMain().getTemp_min() + "°C");
         mTempMax.setText((int) cw.getMain().getTemp_max() + "°C");
+
+        // Impostiamo l'immagine giusta in base al tipo di meteo
         String mDrawableName = "a" + cw.getWeather().get(0).getIcon();
         int resID = getResources().getIdentifier(mDrawableName, "drawable", getContext().getPackageName());
         mImageView.setImageResource(resID);
